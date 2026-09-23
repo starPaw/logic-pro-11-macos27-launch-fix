@@ -1,0 +1,46 @@
+name: Compatibility report
+description: Report a failure or a new Logic/macOS compatibility case
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please use a separate patched Logic copy and keep your original installation untouched.
+  - type: input
+    id: logic
+    attributes:
+      label: Logic Pro version and build
+      placeholder: "11.2.2 (6387)"
+    validations:
+      required: true
+  - type: input
+    id: macos
+    attributes:
+      label: macOS version and build
+      placeholder: "27.0 (26A428)"
+    validations:
+      required: true
+  - type: input
+    id: arch
+    attributes:
+      label: Mac architecture
+      placeholder: "Apple Silicon / arm64"
+    validations:
+      required: true
+  - type: textarea
+    id: symptom
+    attributes:
+      label: What happened?
+      description: Include the exact command and the relevant error or runtime behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: doctor
+    attributes:
+      label: Doctor / verify output
+      render: text
+  - type: textarea
+    id: adapter
+    attributes:
+      label: Adapter log excerpt
+      description: Output from `./Logic27-BNNS.command diagnose --lines 120`.
+      render: text
