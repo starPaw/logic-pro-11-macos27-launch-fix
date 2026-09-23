@@ -1,0 +1,95 @@
+{
+  "schema": 1,
+  "tool_id": "logic27-bnns-cleanpatch",
+  "target": {
+    "name": "Logic Pro",
+    "bundle_id": "com.apple.logic10",
+    "version": "11.2.2",
+    "build": "6387",
+    "default_app": "/Applications/Logic Pro.app",
+    "framework_rel": "Contents/Frameworks/MAMachineLearning.framework",
+    "binary_rel": "Contents/Frameworks/MAMachineLearning.framework/Versions/A/MAMachineLearning",
+    "shim_rel": "Contents/Frameworks/MAMachineLearning.framework/Versions/A/BNNSCompat.dylib",
+    "source_sha256": "b7a4e954e202a605af48dc10f963de075def2ecdf4d1c239a7e5022eb3f125da",
+    "patched_pre_sign_sha256": "646cd2dc6f1c14621333e35ca51074e8d5005cfe7144c9608ceffe4038d7376a"
+  },
+  "tested_system": {
+    "macos_version": "27.0",
+    "macos_build": "26A428",
+    "host_arch": "arm64"
+  },
+  "adapter": {
+    "release_url": "https://github.com/NewtonPuff/logic-pro-11-macos-27-bnns-fix/releases/download/logic-11.2.2-macos27/Logic11-BNNS-Patcher-release.zip",
+    "release_asset_sha256": "0a88f151b90b274c48e39f539316cd21665b0610a7de0f09bf3b1d1f15654161",
+    "install_name": "@loader_path/BNNSCompat.dylib",
+    "legacy_loader_path": "/System/Library/Frameworks/Accelerate.framework/Accelerate",
+    "required_exports": [
+      "BNNSGraphCompileFromFile",
+      "BNNSGraphExecute",
+      "BNNSGraphOptionsCreateDefault",
+      "BNNSGraphOptionsSetSingleThread",
+      "BNNSGraphGetWorkspaceSize",
+      "BNNSGraphGetSize",
+      "BNNSGraphContextGetArgPosition",
+      "BNNSGraphGetNumInputs",
+      "BNNSGraphGetInputNames",
+      "BNNSGraphGetNumOutputs",
+      "BNNSGraphGetOutputNames",
+      "BNNSGraphGetTensorDescriptor",
+      "BNNSGraphOptionsSetPredefinedOptimizations",
+      "BNNSGraphGetArgumentPosition"
+    ],
+    "runtime_log": "/tmp/LogicBNNSCompat-v4.log"
+  },
+  "runtime": {
+    "accelerate": "/System/Library/Frameworks/Accelerate.framework/Accelerate",
+    "legacy_symbol_expected_missing": "BNNSGraphGetSize",
+    "required_modern_symbols": [
+      "BNNSGraphCompileFromFile_v2",
+      "BNNSGraphContextMake",
+      "BNNSGraphContextExecute_v2",
+      "BNNSGraphContextGetWorkspaceSize_v2",
+      "BNNSGraphContextGetTensor",
+      "BNNSTensorGetAllocationSize",
+      "BNNSGraphContextSetArgumentType",
+      "BNNSGraphCompileOptionsMakeDefault",
+      "BNNSGraphCompileOptionsSetTargetSingleThread",
+      "BNNSGraphCompileOptionsSetPredefinedOptimizations",
+      "BNNSGraphGetInputCount",
+      "BNNSGraphGetInputNames_v2",
+      "BNNSGraphGetOutputCount",
+      "BNNSGraphGetOutputNames_v2",
+      "BNNSGraphGetArgumentCount",
+      "BNNSGraphGetArgumentIntents",
+      "BNNSGraphGetTensorDescriptor_v2",
+      "BNNSGraphGetArgumentPosition",
+      "BNNSGraphContextGetArgumentPosition"
+    ]
+  },
+  "fat_arches": {
+    "x86_64": { "cpu_type": "0x01000007" },
+    "arm64": { "cpu_type": "0x0100000c" }
+  },
+  "patches": {
+    "x86_64": [
+      { "offset": "0x0c32c", "old": "e8dd7c0100", "new": "31c0909090", "description": "neutralize direct BNNSGraphGetSize call" },
+      { "offset": "0x0c34d", "old": "740b", "new": "9090", "description": "neutralize obsolete serializer branch" },
+      { "offset": "0x2d098", "old": "02fa0300", "new": "02fb0300", "description": "mark chained import weak" },
+      { "offset": "0x30c5e", "old": "0002", "new": "4002", "description": "set N_WEAK_REF symbol flag" },
+      { "offset": "0x2740b", "kind": "loader_path", "description": "redirect private BNNS loader to compatibility adapter" }
+    ],
+    "arm64": [
+      { "offset": "0x0c67c", "old": "69560094", "new": "000080d2", "description": "neutralize direct BNNSGraphGetSize call" },
+      { "offset": "0x0c69c", "old": "a8000034", "new": "1f2003d5", "description": "neutralize obsolete serializer branch" },
+      { "offset": "0x30088", "old": "02fa0300", "new": "02fb0300", "description": "mark chained import weak" },
+      { "offset": "0x3257e", "old": "0002", "new": "4002", "description": "set N_WEAK_REF symbol flag" },
+      { "offset": "0x2649b", "kind": "loader_path", "description": "redirect private BNNS loader to compatibility adapter" }
+    ]
+  },
+  "tool_version": "1.2.0",
+  "build_toolchain": {
+    "sdk": "xcrun --sdk macosx --show-sdk-path",
+    "compiler": "xcrun --find clang",
+    "explicit_sysroot": true
+  }
+}
